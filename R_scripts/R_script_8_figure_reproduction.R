@@ -9,31 +9,30 @@
 
 
 # The script allows the reproduction of the following figures, in this order:
-# - Figure 4A
-# - Supplementary Figure S13
-# - Supplementary Figure S14
-# - Supplementary Figure S16
-# - Supplementary Figure S15
-# - Figure 6
-# - Supplementary Figure S18
-# - Supplementary Figure S17
-# - Figure 7
-# - Figure 8
-# - Figure 9
-# - Supplementary Figure S5
-# - Supplementary Figure S6
-# - Supplementary Figure S7
-# - Supplementary Figure S8
-# - Supplementary Figure S9
-# - Supplementary Figure S10
-# - Supplementary Figure S11
-# - Supplementary Figure S12
-# - Figure 5
-# - Figure 10
+# - Figure 3A
+# - Figure S15
+# - Figure S16
+# - Figure S17
+# - Figure S18
+# - Figure 4
+# - Figure S22
+# - Figure S19
+# - Figure S20
+# - Figure S21
+# - Figure S5
+# - Figure S6
+# - Figure S7
+# - Figure S8
+# - Figure S9
+# - Figure S12
+# - Figure S13
+# - Figure S14
+# - Figure S10
+# - Figure S11
 
 
-# Figures S2, S3 and S4 can be reproduced with R script "neighborhood_landscape_analysis.R".
-# Figures 1, 2, 3, 4B and S1 were realized with inkscape.
+# Figures S3, S4 and S5 can be reproduced with R script "neighborhood_landscape_analysis.R".
+# Figures 1, 2, 4B, S1 and S2 were realized with inkscape.
 
 
 # ---------------------------------------------------------------------------- #
@@ -66,6 +65,7 @@ library(Hmisc) # version 5.1-1
 library(DataExplorer) # version 0.8.2
 library(sf) # version 1.0-14
 library(ggplot2) # version 3.4.4
+library(ggpattern) # version 1.1.1
 library(ggridges) # version 0.5.4
 library(ggsci) # version 3.0.0
 library(cowplot) # version 1.1.1
@@ -227,10 +227,10 @@ fieldtrip <- function(variable,value){
 
 # Main study sites coordinates --------------------
 
-Fpet_sites_coord <-  read.csv("D:/Finn/Research/Journal Articles/Manuscripts/2019-Environmental_effects_on_fig_wasp_community/working_directory/raw_data/Fpet_sites_coord.csv")
+Fpet_sites_coord <-  read.csv(paste(workdir,"raw_data/Fpet_sites_coord.csv", sep=""))
 
 # Formating
-Fpet_sites_coord$pop <- factor(Fpet_sites_coord$pop, levels = c("158","172","112","113","95","179","201","96","70")) # Sites ordered from north (first) to south (last)
+Fpet_sites_coord$pop <- factor(c("s158","s172","s112","s113","s95","s179","s201","s96","s70"), levels = c("s158","s172","s112","s113","s95","s179","s201","s96","s70")) # Sites ordered from north (first) to south (last)
 Fpet_sites_coord <- Fpet_sites_coord[,c(3,1:2)]
 
 # Extend the extent by several degrees each four cardinal directions
@@ -253,7 +253,31 @@ ggplot(data = mexicoAndUSA) + geom_sf() +
                          style = north_arrow_fancy_orienteering) 
 
 
-# Figure 4A --------------------
+# Figure 3A --------------------
+
+# ggplot(data = mexicoAndUSA) + geom_sf() +
+#   coord_sf(xlim = Fpet_sites_extent[1:2], ylim = Fpet_sites_extent[3:4], expand = FALSE) +
+#   geom_point(data = Fpet_sites_coord, aes(x = longitude, y = latitude), size = 4, shape = 21, stroke = 1.5, colour = "white", fill = "black") +
+#   geom_text_repel(data = Fpet_sites_coord, aes(x = longitude, y = latitude, label = pop), nudge_x = -0.4, vjust =1, size = 5, fontface = "bold", segment.color = NA)  +
+#   theme_classic() +
+#   theme(panel.grid.major = element_line(color = gray(0.5), linetype = "dashed", size = 0.5), 
+#         panel.background = element_rect(fill = "aliceblue"),
+#         panel.border = element_rect(fill = NA, size = 0.5), # element_rect(colour = "black", fill=NA, size=1.5)
+#         text=element_text(size = 16),
+#         axis.text.x=element_text(colour="black", size = 12, angle = 45, vjust = 0.5),
+#         axis.text.y=element_text(colour="black", size = 12)) +
+#   annotate(geom = "text", x = -109.5, y = 30, label = "United \n Mexican States", color = "grey22", size = 4.5) +
+#   annotate(geom = "text", x = -114, y = 25, label = "Pacific Ocean", fontface = "italic", color = "grey22", size = 4) +
+#   annotate(geom = "text", x = -111, y = 27, label = "Sea of Cortez", fontface = "italic", color = "grey22", size = 4, angle = -50) +
+#   annotation_scale(location = "bl", width_hint = 0.5) + 
+#   annotation_north_arrow(location = "bl", which_north = "true", pad_x = unit(0.3, "in"), pad_y = unit(0.5, "in"), style = north_arrow_orienteering()) +
+#   xlab("Longitude") + 
+#   ylab("Latitude")
+# 
+# # Saved with ggsave(), width = 6 inches, height = 8 inches, dpi = 600.
+# ggsave(paste0(workdir,"figures/","Fpet_study_sites_map.png",sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 7, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
+
+# Figure 3A Grayscale --------------------
 
 ggplot(data = mexicoAndUSA) + geom_sf() +
   coord_sf(xlim = Fpet_sites_extent[1:2], ylim = Fpet_sites_extent[3:4], expand = FALSE) +
@@ -261,7 +285,7 @@ ggplot(data = mexicoAndUSA) + geom_sf() +
   geom_text_repel(data = Fpet_sites_coord, aes(x = longitude, y = latitude, label = pop), nudge_x = -0.4, vjust =1, size = 5, fontface = "bold", segment.color = NA)  +
   theme_classic() +
   theme(panel.grid.major = element_line(color = gray(0.5), linetype = "dashed", size = 0.5), 
-        panel.background = element_rect(fill = "aliceblue"),
+        panel.background = element_rect(fill = "lightgray"),
         panel.border = element_rect(fill = NA, size = 0.5), # element_rect(colour = "black", fill=NA, size=1.5)
         text=element_text(size = 16),
         axis.text.x=element_text(colour="black", size = 12, angle = 45, vjust = 0.5),
@@ -275,9 +299,9 @@ ggplot(data = mexicoAndUSA) + geom_sf() +
   ylab("Latitude")
 
 
-
 # Saved with ggsave(), width = 6 inches, height = 8 inches, dpi = 600.
-ggsave(paste0(workdir,"figures/","Fpet_study_sites_map.png",sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 7, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
+ggsave(paste0(workdir,"figures/","Fpet_study_sites_map_grayscale_fix.png",sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 7, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
+
 
 # Clear working environment
 rm(Fpet_sites_coord, Fpet_sites_extent, mexicoAndUSA)
@@ -290,7 +314,7 @@ rm(Fpet_sites_coord, Fpet_sites_extent, mexicoAndUSA)
 
 
 
-# Supplementary Figure S13 --------------------
+# Figure S15 --------------------
 
 # Prepare the data
 df_fig_reponse_plot <- subset(df_fig_data, select=c(season,site,pollinators,LO1_f,SO1_f,SO2_f,idarnes_m,heterandrium_1,heterandrium_2,ficicola,physothorax,sycophila,wasps_total))
@@ -331,7 +355,7 @@ ggsave(paste0(workdir,"figures/","wasps_density_plot.png",sep=""), plot = last_p
 rm(df_fig_reponse_plot, df_fig_reponse_plot_m)
 
 
-# Supplementary Figure S14 --------------------
+# Figure S16 --------------------
 
 # Prepare the data
 df_tree_host_variable_plot <- subset(df_tree_data, select=c(season,site,tree_volume,reproduction,crop_size,asynchrony,flowering_landscape_250_125,syconium_landscape_250_125)) # We chose flowering_landscape_250_50 an syconium_landscape_250_50 based on preliminary analyses and glmm best fits.
@@ -370,7 +394,7 @@ ggsave(paste0(workdir,"figures/","host-related_variables_boxplots.png",sep=""), 
 rm(df_tree_host_variable_plot, df_tree_host_variable_plot_m, df_foundresses, df_foundresses_plot_m ,df_host_variable_plot_m)
 
 
-# Supplementary Figure S16 --------------------
+# Figure S17 --------------------
 
 df_tree_abiotic_variable_plot <- subset(df_tree_data, select=c(season,site,DM_tmax,DM_tmin,DM_prec,DM_vp,CHIRPS_prec,MODIS_LST,TC_tmax,TC_tmin,TC_prec,TC_vp,TC_ws)) # We plot all climate variable although not all are considered in further analyses.
 df_tree_abiotic_variable_plot <- df_tree_abiotic_variable_plot[!duplicated(df_tree_abiotic_variable_plot), ]
@@ -404,7 +428,7 @@ rm(df_tree_abiotic_variable_plot, df_tree_abiotic_variable_plot_m)
 
 
 
-# Supplemental Figure S15 --------------------
+# Figure S18 --------------------
 
 
 # Re-create the correlation matrix and tests
@@ -451,40 +475,158 @@ df_plot_proportions <- df_fig_data %>%
 df_plot_proportions_red  <- df_plot_proportions[, c(1:2,5:6)]
 df_plot_proportions_reshape <- melt(as.data.frame(df_plot_proportions_red), id=c("site", "season"))
 
+# Add rows when no figs were collected (Reviewer comments) --------------------
 
-# Figure 6 --------------------
 
-ggplot(df_plot_proportions_reshape,aes(x = site, y = value, fill = variable)) + 
-	geom_bar(position = "fill",stat = "identity", colour = "black") + # Add " color = "black" but this creates delimitations in the bars
-	# or:
-	# geom_bar(position = position_fill(), stat = "identity") 
-	theme(axis.line.x = element_line(size = 0.5, colour = "black"),
-				axis.line.y = element_line(size = 0.5, colour = "black"),
-				axis.line = element_line(size=1, colour = "black"),
-				panel.grid.major = element_blank(),
-				panel.grid.minor = element_blank(),
-				panel.border = element_blank(),
-				panel.background = element_blank(),
-				plot.margin = margin(15, 10, 10, 10, "pt"),
-				plot.title=element_text(size = 20),
-				text=element_text(size = 16),
-				strip.background = element_blank(),
-				strip.text = element_text(size = 12, vjust = 2.5, margin = margin(3.5,0,0,0, "pt")),
-				axis.text.x=element_text(colour="black", size = 12, angle = 0, vjust = 0.5),
-				axis.text.y=element_text(colour="black", size = 12, angle = 90, hjust = 0.5),
-				legend.position=c(0.15, 0.68),
-				legend.background = element_rect(size=0.5, linetype="solid", colour ="black", fill="white"),
-				legend.spacing.y = unit(0, "mm"),
-				legend.text=element_text(size=10)) +
-	scale_y_continuous(labels = percent_format(), expand = c(0,0)) +
-	labs(x = "Sites", y = "Wasp proportions") +
-	scale_fill_manual(values = c("#1E90FF", "#E1B378"), name=NULL, # Try with "#FF7F00", "#1E90FF"
-										breaks=c("freq_pollinators", "freq_parasites"),
-										labels=c("Pollinators", "Non-pollinating fig wasps"))  + 
-	facet_wrap( .~ season, ncol=2, scales = "free_x", strip.position = c("top"), labeller = fieldtrip)
+df_plot_proportions_missing_rows <- data.frame(season = c("F2012","F2012","S2013","S2013","S2013","F2013","F2013","F2013","F2013"),
+                                                       site = c("112","179","113","95","179","158","112","179","201"),
+                                                       freq_pollinators = c(NA,NA,NA,NA,NA,NA,NA,NA,NA),
+                                                       freq_parasites = c(NA,NA,NA,NA,NA,NA,NA,NA,NA))
 
-# Saved with ggsave(), width = 8.5 inches, height = 7 inches, dpi = 600.
-ggsave("wasp_proportions_per_site_and_season.png", plot = last_plot(), device = "png", path = NULL, scale = 1, width = 8.5, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
+df_plot_proportions_fix <- rbind(df_plot_proportions_red, df_plot_proportions_missing_rows)
+df_plot_proportions_fix$site <-  paste("s", df_plot_proportions_fix$site, sep = "")
+df_plot_proportions_fix$site <- factor(df_plot_proportions_fix$site, levels = c("s158", "s172","s112","s113","s95","s179","s201","s96","s70", "s250"))
+df_plot_proportions_fix$season <- factor(df_plot_proportions_fix$season, levels = c("F2012", "S2013","F2013","S2014"))
+df_plot_proportions_reshape_fix <- melt(as.data.frame(df_plot_proportions_fix), id=c("site", "season"))
+
+
+# Figure 5 (original) --------------------
+
+# ggplot(df_plot_proportions_reshape,aes(x = site, y = value, fill = variable)) + 
+# 	geom_bar(position = "fill",stat = "identity", colour = "black") + # Add " color = "black" but this creates delimitations in the bars
+# 	# or:
+# 	# geom_bar(position = position_fill(), stat = "identity") 
+# 	theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+# 				axis.line.y = element_line(size = 0.5, colour = "black"),
+# 				axis.line = element_line(size=1, colour = "black"),
+# 				panel.grid.major = element_blank(),
+# 				panel.grid.minor = element_blank(),
+# 				panel.border = element_blank(),
+# 				panel.background = element_blank(),
+# 				plot.margin = margin(15, 10, 10, 10, "pt"),
+# 				plot.title=element_text(size = 20),
+# 				text=element_text(size = 16),
+# 				strip.background = element_blank(),
+# 				strip.text = element_text(size = 12, vjust = 2.5, margin = margin(3.5,0,0,0, "pt")),
+# 				axis.text.x=element_text(colour="black", size = 12, angle = 0, vjust = 0.5),
+# 				axis.text.y=element_text(colour="black", size = 12, angle = 90, hjust = 0.5),
+# 				legend.position=c(0.15, 0.68),
+# 				legend.background = element_rect(size=0.5, linetype="solid", colour ="black", fill="white"),
+# 				legend.spacing.y = unit(0, "mm"),
+# 				legend.text=element_text(size=10)) +
+# 	scale_y_continuous(labels = percent_format(), expand = c(0,0)) +
+# 	labs(x = "Sites", y = "Wasp proportions") +
+# 	scale_fill_manual(values = c("#1E90FF", "#E1B378"), name=NULL, # Try with "#FF7F00", "#1E90FF"
+# 										breaks=c("freq_pollinators", "freq_parasites"),
+# 										labels=c("Pollinators", "Non-pollinating fig wasps"))  + 
+# 	facet_wrap( .~ season, ncol=2, scales = "free_x", strip.position = c("top"), labeller = fieldtrip)
+# 
+# # Saved with ggsave(), width = 8.5 inches, height = 7 inches, dpi = 600.
+# ggsave("wasp_proportions_per_site_and_season.png", plot = last_plot(), device = "png", path = NULL, scale = 1, width = 8.5, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
+
+
+# Figure 5 Gray scale --------------------
+
+# ggplot(df_plot_proportions_reshape,aes(x = site, y = value, fill = variable)) + 
+#   geom_bar(position = "fill",stat = "identity", colour = "black") + # Add " color = "black" but this creates delimitations in the bars
+#   # or:
+#   # geom_bar(position = position_fill(), stat = "identity") 
+#   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+#         axis.line.y = element_line(size = 0.5, colour = "black"),
+#         axis.line = element_line(size=1, colour = "black"),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         plot.margin = margin(15, 10, 10, 10, "pt"),
+#         plot.title=element_text(size = 20),
+#         text=element_text(size = 16),
+#         strip.background = element_blank(),
+#         strip.text = element_text(size = 12, vjust = 2.5, margin = margin(3.5,0,0,0, "pt")),
+#         axis.text.x=element_text(colour="black", size = 12, angle = 0, vjust = 0.5),
+#         axis.text.y=element_text(colour="black", size = 12, angle = 90, hjust = 0.5),
+#         legend.position=c(0.18, 0.68),
+#         legend.background = element_rect(size=0.5, linetype="solid", colour ="black", fill="white"),
+#         legend.spacing.y = unit(0, "mm"),
+#         legend.text=element_text(size=10)) +
+#   scale_y_continuous(labels = percent_format(), expand = c(0,0)) + 
+#   labs(x = "Sites", y = "Wasp proportions") +
+#   scale_fill_manual(values = c("lightgray", "darkgray"), name=NULL, # Try with "#FF7F00", "#1E90FF"
+#                     breaks=c("freq_pollinators", "freq_parasites"),
+#                     labels=c("Pollinators", "Non-pollinating fig wasps"))  + 
+#   facet_wrap( .~ season, ncol=2, scales = "free_x", strip.position = c("top"), labeller = fieldtrip)
+# 
+# # Saved with ggsave(), width = 8.5 inches, height = 7 inches, dpi = 600.
+# ggsave("wasp_proportions_per_site_and_season_grayscale.png", plot = last_plot(), device = "png", path = NULL, scale = 1, width = 7, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
+
+
+# Figure 4 Gray scale, Reviewer comment-corrected --------------------
+
+ggplot(df_plot_proportions_reshape_fix,aes(x = site, y = value, fill = variable)) + 
+  geom_bar(position = "fill",stat = "identity", colour = "black") + # Add " color = "black" but this creates delimitations in the bars
+  # or:
+  # geom_bar(position = position_fill(), stat = "identity") 
+  theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+        axis.line.y = element_line(size = 0.5, colour = "black"),
+        axis.line = element_line(size=1, colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        plot.margin = margin(15, 10, 10, 10, "pt"),
+        plot.title=element_text(size = 20),
+        text=element_text(size = 16),
+        strip.background = element_blank(),
+        strip.text = element_text(size = 12, vjust = 2.5, margin = margin(3.5,0,0,0, "pt")),
+        axis.text.x=element_text(colour="black", size = 12, angle = 90, vjust = 0.5),
+        axis.text.y=element_text(colour="black", size = 12, angle = 90, hjust = 0.5),
+        legend.position="bottom", #c(0.68, 0.08)
+        legend.background = element_rect(size=0.5, linetype="solid", colour ="black", fill="white"),
+        legend.spacing.y = unit(0, "mm"),
+        legend.text=element_text(size=10)) +
+  scale_y_continuous(labels = percent_format(), expand = c(0,0)) + 
+  labs(x = "Sites", y = "Wasp proportions") +
+  scale_fill_manual(values = c("lightgray", "gray1"), name=NULL, # Try with "#FF7F00", "#1E90FF"
+                    breaks=c("freq_pollinators", "freq_parasites"),
+                    labels=c("Pollinators", "Non-pollinating fig wasps"))  + 
+  facet_wrap( .~ season, ncol=2, scales = "free_x", strip.position = c("top"), labeller = fieldtrip)
+
+ggsave("wasp_proportions_per_site_and_season_grayscale_fix.png", plot = last_plot(), device = "png", path = NULL, scale = 1, width = 7, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
+
+
+# Figure 5 Patterns --------------------
+
+# ggplot(df_plot_proportions_reshape, aes(x = site, y = value, fill = variable, pattern = variable)) + 
+#   geom_col_pattern(position="stack", stat="identity", pattern_spacing = 0.1, pattern_frequency = 5, pattern_angle = 45) + # , pattern = 'stripe',fill = 'darkgray', colour  = "black"
+#   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+#         axis.line.y = element_line(size = 0.5, colour = "black"),
+#         axis.line = element_line(size=1, colour = "black"),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         plot.margin = margin(15, 10, 10, 10, "pt"),
+#         plot.title=element_text(size = 20),
+#         text=element_text(size = 16),
+#         strip.background = element_blank(),
+#         strip.text = element_text(size = 12, vjust = 2.5, margin = margin(3.5,0,0,0, "pt")),
+#         axis.text.x=element_text(colour="black", size = 12, angle = 0, vjust = 0.5),
+#         axis.text.y=element_text(colour="black", size = 12, angle = 90, hjust = 0.5),
+#         legend.position=c(0.15, 0.68),
+#         legend.background = element_rect(size=0.5, linetype="solid", colour ="black", fill="white"),
+#         legend.spacing.y = unit(0, "mm"),
+#         legend.text=element_text(size=10)) +
+#   scale_y_continuous(labels = percent_format(), expand = c(0,0)) + 
+#   labs(x = "Sites", y = "Wasp proportions") +
+#   scale_fill_manual(values = c("lightgray", "darkgray"), name=NULL, # Try with "#FF7F00", "#1E90FF"
+#                     breaks=c("freq_pollinators", "freq_parasites"),
+#                     labels=c("Pollinators", "Non-pollinating fig wasps"))  + 
+#   facet_wrap( .~ season, ncol=2, scales = "free_x", strip.position = c("top"), labeller = fieldtrip)
+# 
+# # Saved with ggsave(), width = 8.5 inches, height = 7 inches, dpi = 600.
+# ggsave("wasp_proportions_per_site_and_season_patterns.png", plot = last_plot(), device = "png", path = NULL, scale = 1, width = 8.5, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
+
+
 
 
 
@@ -520,7 +662,7 @@ length(levels(pca_plot$levels)) # 27 colors, we need a 27 color palette which wa
 colourCountPca <- length(levels(pca_plot$levels))
 
 
-# Supplementary Figure 18 --------------------
+# Figure S22 --------------------
 
 ggplot(pca_plot, aes(x=PC1, y=PC2))  + 
 	geom_point(aes(fill=factor(levels)), size = 3, shape = 21, stroke = 1, colour = "black") + 
@@ -540,115 +682,6 @@ ggplot(pca_plot, aes(x=PC1, y=PC2))  +
 
 # Saved with ggsave(), width = 10 inches, height = 7 inches, dpi = 600.
 ggsave(paste0(workdir,"figures/","PCA_wasp_community_site_by_season_RRPP.png", sep ="" ), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 10, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
-
-
-
-# ____________________________________________________________________________ #
-# Wasp means per site and season
-
-# Re-format the dataset --------------------
-
-df_plot_wasps_means <- df_fig_data %>% 
-	group_by(season) %>% 
-	summarise(pegoscapus_f = mean(pegoscapus_f), 
-						pegoscapus_m = mean(pegoscapus_m),
-						LO1=mean(LO1_f), 
-						SO1=mean(SO1_f), 
-						SO2=mean(SO2_f), 
-						idarnes_m=mean(idarnes_m),
-						heterandrium_1_f=mean(heterandrium_1_f), 
-						heterandrium_1_mw=mean(heterandrium_1_mw),
-						heterandrium_1_mu=mean(heterandrium_1_mu),
-						heterandrium_2_f=mean(heterandrium_2_f), 
-						heterandrium_2_mw=mean(heterandrium_2_mw),
-						heterandrium_2_mu=mean(heterandrium_2_mu),
-						ficicola_f=mean(ficicola_f), 
-						ficicola_m=mean(ficicola_m),
-						physothorax_f=mean(physothorax_f),
-						physothorax_m=mean(physothorax_m),
-						sycophila=mean(sycophila)) %>%
-	gather(key = key, value = val, -season)
-df_plot_wasps_means$key <- as.factor(df_plot_wasps_means$key)
-df_plot_wasps_means$key <- factor(df_plot_wasps_means$key, levels =unique(df_plot_wasps_means$key))
-df_plot_wasps_means$sp <- as.factor(c("Pegoscapus", "Pegoscapus","Pegoscapus", "Pegoscapus", "Pegoscapus", "Pegoscapus", "Pegoscapus", "Pegoscapus",
-																			"LO1", "LO1", "LO1", "LO1",
-																			"SO1", "SO1", "SO1", "SO1", 
-																			"SO2", "SO2", "SO2", "SO2", 
-																			"Idarnes males", "Idarnes males", "Idarnes males", "Idarnes males",
-																			"Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", "Heterandrium 1", 
-																			"Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2", "Heterandrium 2",
-																			"Ficicola", "Ficicola", "Ficicola", "Ficicola","Ficicola", "Ficicola","Ficicola", "Ficicola",
-																			"Physothorax", "Physothorax", "Physothorax", "Physothorax","Physothorax", "Physothorax","Physothorax", "Physothorax",
-																			"Sycophyla", "Sycophyla", "Sycophyla", "Sycophyla"))
-df_plot_wasps_means$sp <- factor(df_plot_wasps_means$sp, levels = c("Pegoscapus", "LO1", "SO1", "SO2", "Idarnes males", "Heterandrium 1", "Heterandrium 2", "Ficicola", "Physothorax", "Sycophyla"))
-
-# Prepare some elements that will be added to the plots --------------------
-
-# Count for numbers of color used in the graph
-colourCount = length(unique(df_plot_wasps_means$key))
-
-# We want to add some information about number of syconia sampled on the graph
-# Total number of syconia sampled
-df_plot_F2012 <- subset(df_fig_data, season =="F2012")
-length(df_plot_F2012$fig)
-# 634
-df_plot_S2013 <- subset(df_fig_data, season =="S2013")
-length(df_plot_S2013$fig)
-# 435
-df_plot_F2013 <- subset(df_fig_data, season =="F2013")
-length(df_plot_F2013$fig)
-# 388
-df_plot_S2014 <- subset(df_fig_data, season =="S2014")
-length(df_plot_S2014$fig)
-# 847
-length(df_fig_data$fig)
-# Total = 2304
-
-# Total number of wasp sampled
-sum(df_plot_F2012$wasps_total)
-# 43850
-sum(df_plot_S2013$wasps_total)
-# 39794
-sum(df_plot_F2013$wasps_total)
-# 44092
-sum(df_plot_S2014$wasps_total)
-# 88863
-
-# Add the info above to the plot
-facet_text <- c("Fall 2012        \nSyconia: 634 \nWasps: 43850", "Spring 2013  \nSyconia: 435 \nWasps: 39794", "Fall 2013        \nSyconia: 388 \nWasps: 44092", "Spring 2014  \nSyconia: 847 \nWasps: 88863")
-
-# Supplementary Figure 17 --------------------
-
-waspcountplot_means <- ggplot(data=df_plot_wasps_means, aes(x=sp, y=val, fill=key)) +
-	geom_bar(colour="black", stat="identity", position = "stack") +
-	theme(axis.line.x = element_line(size = 0.5, colour = "black"),
-				axis.line.y = element_line(size = 0.5, colour = "black"),
-				axis.line = element_line(size=1, colour = "black"),
-				panel.grid.major = element_blank(),
-				panel.grid.minor = element_blank(),
-				panel.border = element_blank(),
-				panel.background = element_blank(),
-				plot.title=element_text(size = 20),
-				text=element_text(size = 16),
-				strip.background = element_blank(),
-				strip.text = element_text(size = 16),
-				axis.text.x=element_text(colour="black", size = 10, angle = 90, vjust = 0.5),
-				axis.text.y=element_text(colour="black", size = 12, angle = 90, hjust = 0.5)) +
-	labs(x = NULL, y = "Wasp average") +
-	facet_wrap( .~ season, ncol=4, strip.position = c("top"), labeller = fieldtrip) +
-	scale_fill_manual(values = waspPalette(colourCount)) +
-	scale_x_discrete(labels=wasplabels) +
-	scale_y_continuous(expand = c(0,0)) +
-	theme(legend.position="none") 
-waspcountplot_means_tag <- tag_facet(waspcountplot_means, open = "", close = "", tag_pool = facet_text, x = -Inf, y = Inf, fontface = 2) 
-# EDIT: tag_facet() removes facet titles, so I added them in "facet_text", fieldtrip() not necessary anymore here (but used later).
-waspcountplot_means_tag
-
-# Saved with ggsave(), width = 8.5 inches, height = 5 inches, dpi = 600.
-ggsave(paste0(workdir,"figures/","wasp_species_averages.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 8.5, height = 5, units = c("in"), dpi = 600, limitsize = TRUE)
-
-# Clear memory
-rm(df_plot_wasps_means, colourCount, df_plot_F2012, df_plot_S2013, df_plot_F2013, df_plot_S2014, waspcountplot_means,waspcountplot_means_tag )
 
 
 
@@ -754,7 +787,7 @@ cropsizeplot
 ggsave(paste0(workdir,"figures/","tree_crop_size.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 8.5, height = 4, units = c("in"), dpi = 600, limitsize = TRUE)
 
 
-# Figure 7 --------------------
+# Figure S19 --------------------
 
 # # Combine plots
 # ggdraw() +
@@ -1036,7 +1069,7 @@ sy_land_112_S2014_plot <- ggplot(data = sy_land_112_S2014_sf) +
   ylab(NULL) +
   ggtitle("Spring 2014")
 
-# Figure 8 --------------------
+# Figure S20 --------------------
 
 # Combine the plots above
 ggdraw() +
@@ -1388,7 +1421,7 @@ sy_land_113_S2014_plot <- ggplot(data = sy_land_113_S2014_sf) +
   ggtitle("Spring 2014")
 
 
-# Figure 9 --------------------
+# Figure S21 --------------------
 
 # Combine the plots above
 ggdraw() +
@@ -1644,7 +1677,7 @@ Fpet_all_estimates_WS <- Fpet_all_estimates[,c("site","date","latitude","longitu
 Fpet_all_estimates_WS_melt <- melt(Fpet_all_estimates_WS, id.vars = c("site","date","latitude","longitude","altitude"))
 
 
-# Supplementary Figure S10 -------------------- 
+# Supplementary Figure S12 -------------------- 
 
 ggplot(Fpet_all_estimates_T_melt, aes(x = date, colour=variable)) + 
   geom_line(aes(y = value), linetype="solid", size=0.5) + 
@@ -1678,7 +1711,7 @@ ggplot(Fpet_all_estimates_T_melt, aes(x = date, colour=variable)) +
 ggsave(paste0(workdir, "figures/", "Tmax_2012-2014.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 10, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
 
 
-# Supplementary Figure S11 -------------------- 
+# Supplementary Figure S13 -------------------- 
 
 # Plot
 ggplot(Fpet_all_estimates_P_melt, aes(x = date, colour=variable)) + 
@@ -1712,7 +1745,7 @@ ggplot(Fpet_all_estimates_P_melt, aes(x = date, colour=variable)) +
 ggsave(paste0(workdir, "figures/", "Prec_2012-2014.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 10, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
 
 
-# Supplementary Figure S12 -------------------- 
+# Supplementary Figure S14 -------------------- 
 
 ggplot(na.omit(Fpet_all_estimates_WS_melt), aes(x = date, colour=variable)) + 
   geom_line(aes(y = value),stat="identity") +
@@ -1744,16 +1777,248 @@ ggplot(na.omit(Fpet_all_estimates_WS_melt), aes(x = date, colour=variable)) +
 ggsave(paste0(workdir, "figures/", "WS_2012-2014.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 10, height = 7, units = c("in"), dpi = 600, limitsize = TRUE)
 
 
+# # ____________________________________________________________________________ #
+# # Maximum temperature, precipitation on a transect for 2012-2014
+# 
+# 
+# # Import data
+# transect_annual_data <- read.csv("generated_data/transect_annual_data_2012-2014.csv")
+# 
+# # Plots
+# transect_annual_tmax_2012 <- ggplot(transect_annual_data, aes( x = latitude)) +
+#   geom_line(aes( y = TC_tmax_2012 ), linetype="solid", colour="black", size=1) +
+#   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+#         axis.line.y = element_line(size = 0.5, colour = "black"),
+#         axis.line = element_line(size=1, colour = "black"),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         plot.margin = margin(10, 10, 10, 10, "pt"),
+#         text=element_text(size = 16),
+#         axis.text.x=element_text(colour="black", size = 12),
+#         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2012"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2012"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2012"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2012"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2012"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2012"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2012"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2012"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2012"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+#   scale_y_continuous("Annual maximum\n temperature in 2012 (mm)", breaks=seq(0,50,1)) + 
+#   scale_x_reverse("",breaks=seq(23.5,30,0.5))
+# 
+# transect_annual_tmax_2013 <- ggplot(transect_annual_data, aes( x = latitude)) +
+#   geom_line(aes( y = TC_tmax_2013 ), linetype="solid", colour="black", size=1) +
+#   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+#         axis.line.y = element_line(size = 0.5, colour = "black"),
+#         axis.line = element_line(size=1, colour = "black"),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         plot.margin = margin(10, 10, 10, 10, "pt"),
+#         text=element_text(size = 16),
+#         axis.text.x=element_text(colour="black", size = 12),
+#         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2013"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2013"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2013"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2013"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2013"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2013"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2013"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2013"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2013"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+#   scale_y_continuous("Annual maximum\n temperature in 2013 (mm)", breaks=seq(0,50,1)) + 
+#   scale_x_reverse("",breaks=seq(23.5,30,0.5))
+# 
+# transect_annual_tmax_2014 <- ggplot(transect_annual_data, aes( x = latitude)) +
+#   geom_line(aes( y = TC_tmax_2014 ), linetype="solid", colour="black", size=1) +
+#   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+#         axis.line.y = element_line(size = 0.5, colour = "black"),
+#         axis.line = element_line(size=1, colour = "black"),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         plot.margin = margin(10, 10, 10, 10, "pt"),
+#         text=element_text(size = 16),
+#         axis.text.x=element_text(colour="black", size = 12),
+#         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2014"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2014"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2014"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2014"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2014"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2014"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2014"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2014"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2014"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+#   scale_y_continuous("Annual maximum\n temperature in 2014 (mm)", breaks=seq(0,50,1)) + 
+#   scale_x_reverse("Latitude",breaks=seq(23.5,30,0.5))
+# 
+# transect_annual_prec_2012 <- ggplot(transect_annual_data, aes( x = latitude)) +
+#   geom_line(aes( y = TC_prec_2012 ), linetype="solid", colour="black", size=1) +
+#   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+#         axis.line.y = element_line(size = 0.5, colour = "black"),
+#         axis.line = element_line(size=1, colour = "black"),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         plot.margin = margin(10, 10, 10, 10, "pt"),
+#         text=element_text(size = 16),
+#         axis.text.x=element_text(colour="black", size = 12),
+#         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2012"]+0.25), label = "158", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2012"]+0.25), label = "172", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2012"]+0.25), label = "112", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2012"]+0.25), label = "113", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2012"]+0.25), label = "95", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2012"]+0.25), label = "179", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2012"]+0.25), label = "201", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2012"]+0.25), label = "96", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2012"]+0.25), label = "70", fontface = "bold", color = "black", size = 4) +
+#   scale_y_continuous("Annual cumulated\n precipitation in 2012 (mm)", breaks=seq(50,1000,50)) + 
+#   scale_x_reverse("",breaks=seq(23.5,30,0.5))
+# 
+# transect_annual_prec_2013 <- ggplot(transect_annual_data, aes( x = latitude)) +
+#   geom_line(aes( y = TC_prec_2013 ), linetype="solid", colour="black", size=1) +
+#   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+#         axis.line.y = element_line(size = 0.5, colour = "black"),
+#         axis.line = element_line(size=1, colour = "black"),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         plot.margin = margin(10, 10, 10, 10, "pt"),
+#         text=element_text(size = 16),
+#         axis.text.x=element_text(colour="black", size = 12),
+#         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2013"]+0.25), label = "158", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2013"]+0.25), label = "172", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2013"]+0.25), label = "112", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2013"]+0.25), label = "113", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2013"]+0.25), label = "95", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2013"]+0.25), label = "179", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2013"]+0.25), label = "201", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2013"]+0.25), label = "96", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2013"]+0.25), label = "70", fontface = "bold", color = "black", size = 4) +
+#   scale_y_continuous("Annual cumulated\n precipitation in 2013 (mm)", breaks=seq(50,1000,50)) + 
+#   scale_x_reverse("",breaks=seq(23.5,30,0.5))
+# 
+# transect_annual_prec_2014 <- ggplot(transect_annual_data, aes( x = latitude)) +
+#   geom_line(aes( y = TC_prec_2014 ), linetype="solid", colour="black", size=1) +
+#   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+#         axis.line.y = element_line(size = 0.5, colour = "black"),
+#         axis.line = element_line(size=1, colour = "black"),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         panel.border = element_blank(),
+#         panel.background = element_blank(),
+#         plot.margin = margin(10, 10, 10, 10, "pt"),
+#         text=element_text(size = 16),
+#         axis.text.x=element_text(colour="black", size = 12),
+#         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2014"]+0.25), label = "158", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2014"]+0.25), label = "172", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2014"]+0.25), label = "112", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2014"]+0.25), label = "113", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2014"]+0.25), label = "95", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2014"]+0.25), label = "179", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2014"]+0.25), label = "201", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2014"]+0.25), label = "96", fontface = "bold", color = "black", size = 4) +
+#   geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+#   annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2014"]+0.25), label = "70", fontface = "bold", color = "black", size = 4) +
+#   scale_y_continuous("Annual cumulated\n precipitation in 2014 (mm)", breaks=seq(50,1000,50)) + 
+#   scale_x_reverse("Latitude",breaks=seq(23.5,30,0.5))
+# 
+# 
+# # Figure 5 -------------------- 
+# 
+# 
+# # Combine plots
+# # dev.new(width = 10, height = 10, units = "in", dpi = 600, limitsize = TRUE)
+# # par(mfrow=c(1,1))
+# 
+# ggdraw() +
+#   draw_plot(transect_annual_tmax_2012, x = 0, y = 0.66, width = 0.5, height = 0.33) +
+#   draw_plot(transect_annual_tmax_2013, x = 0, y = 0.33, width = 0.5, height = 0.33) +
+#   draw_plot(transect_annual_tmax_2014, x = 0, y = 0, width = 0.5, height = 0.33) +
+#   draw_plot(transect_annual_prec_2012, x = 0.5, y = 0.66, width = 0.5, height = 0.33) +
+#   draw_plot(transect_annual_prec_2013, x = 0.5, y = 0.33, width = 0.5, height = 0.33) +
+#   draw_plot(transect_annual_prec_2014, x = 0.5, y = 0, width = 0.5, height = 0.33)
+# 
+# # dev.size(units = "in")
+# ggsave(paste0(workdir,"figures/","transect_annual_data.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 12, height = 16, units = c("in"), dpi = 600, limitsize = TRUE)
+# 
+
 # ____________________________________________________________________________ #
 # Maximum temperature, precipitation on a transect for 2012-2014
 
 
 # Import data
-transect_annual_data <- read.csv("generated_data/transect_annual_data_2012-2014.csv")
+transect_seasonal_data <- read.csv("generated_data/transect_seasonal_data_2012-2014.csv")
 
 # Plots
-transect_annual_tmax_2012 <- ggplot(transect_annual_data, aes( x = latitude)) +
-  geom_line(aes( y = TC_tmax_2012 ), linetype="solid", colour="black", size=1) +
+transect_seasonal_tmax_2012_season1 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_tmax_2012_season1 ), linetype="solid", colour="black", size=1) +
   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
         axis.line.y = element_line(size = 0.5, colour = "black"),
         axis.line = element_line(size=1, colour = "black"),
@@ -1765,29 +2030,29 @@ transect_annual_tmax_2012 <- ggplot(transect_annual_data, aes( x = latitude)) +
         text=element_text(size = 16),
         axis.text.x=element_text(colour="black", size = 12),
         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2012"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2012"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2012"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2012"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2012"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2012"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2012"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2012"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2012"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
-  scale_y_continuous("Annual maximum\n temperature in 2012 (mm)", breaks=seq(0,50,1)) + 
-  scale_x_reverse("",breaks=seq(23.5,30,0.5))
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2012_season1"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2012_season1"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2012_season1"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2012_season1"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2012_season1"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2012_season1"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2012_season1"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2012_season1"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2012_season1"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Maximum temperature\n in the first half of year 2012 (mm)", breaks=seq(0,50,1), limits = c(30,40)) + 
+  scale_x_reverse("",breaks=seq(23,30,1))
 
-transect_annual_tmax_2013 <- ggplot(transect_annual_data, aes( x = latitude)) +
-  geom_line(aes( y = TC_tmax_2013 ), linetype="solid", colour="black", size=1) +
+transect_seasonal_tmax_2012_season2 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_tmax_2012_season2 ), linetype="solid", colour="black", size=1) +
   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
         axis.line.y = element_line(size = 0.5, colour = "black"),
         axis.line = element_line(size=1, colour = "black"),
@@ -1799,29 +2064,29 @@ transect_annual_tmax_2013 <- ggplot(transect_annual_data, aes( x = latitude)) +
         text=element_text(size = 16),
         axis.text.x=element_text(colour="black", size = 12),
         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2013"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2013"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2013"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2013"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2013"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2013"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2013"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2013"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2013"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
-  scale_y_continuous("Annual maximum\n temperature in 2013 (mm)", breaks=seq(0,50,1)) + 
-  scale_x_reverse("",breaks=seq(23.5,30,0.5))
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2012_season2"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2012_season2"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2012_season2"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2012_season2"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2012_season2"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2012_season2"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2012_season2"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2012_season2"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2012_season2"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Maximum temperature\n in the second half of year 2012 (mm)", breaks=seq(0,50,1), limits = c(30,40)) + 
+  scale_x_reverse("",breaks=seq(23,30,1))
 
-transect_annual_tmax_2014 <- ggplot(transect_annual_data, aes( x = latitude)) +
-  geom_line(aes( y = TC_tmax_2014 ), linetype="solid", colour="black", size=1) +
+transect_seasonal_tmax_2013_season1 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_tmax_2013_season1 ), linetype="solid", colour="black", size=1) +
   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
         axis.line.y = element_line(size = 0.5, colour = "black"),
         axis.line = element_line(size=1, colour = "black"),
@@ -1833,29 +2098,29 @@ transect_annual_tmax_2014 <- ggplot(transect_annual_data, aes( x = latitude)) +
         text=element_text(size = 16),
         axis.text.x=element_text(colour="black", size = 12),
         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_tmax_2014"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_tmax_2014"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_tmax_2014"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_tmax_2014"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_tmax_2014"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_tmax_2014"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_tmax_2014"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_tmax_2014"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_tmax_2014"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
-  scale_y_continuous("Annual maximum\n temperature in 2014 (mm)", breaks=seq(0,50,1)) + 
-  scale_x_reverse("Latitude",breaks=seq(23.5,30,0.5))
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2013_season1"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2013_season1"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2013_season1"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2013_season1"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2013_season1"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2013_season1"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2013_season1"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2013_season1"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2013_season1"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Maximum temperature\n in the first half of year 2013 (mm)", breaks=seq(0,50,1), limits = c(30,40)) + 
+  scale_x_reverse("",breaks=seq(23,30,1))
 
-transect_annual_prec_2012 <- ggplot(transect_annual_data, aes( x = latitude)) +
-  geom_line(aes( y = TC_prec_2012 ), linetype="solid", colour="black", size=1) +
+transect_seasonal_tmax_2013_season2 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_tmax_2013_season2 ), linetype="solid", colour="black", size=1) +
   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
         axis.line.y = element_line(size = 0.5, colour = "black"),
         axis.line = element_line(size=1, colour = "black"),
@@ -1867,29 +2132,29 @@ transect_annual_prec_2012 <- ggplot(transect_annual_data, aes( x = latitude)) +
         text=element_text(size = 16),
         axis.text.x=element_text(colour="black", size = 12),
         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2012"]+0.25), label = "158", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2012"]+0.25), label = "172", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2012"]+0.25), label = "112", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2012"]+0.25), label = "113", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2012"]+0.25), label = "95", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2012"]+0.25), label = "179", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2012"]+0.25), label = "201", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2012"]+0.25), label = "96", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2012"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2012"]+0.25), label = "70", fontface = "bold", color = "black", size = 4) +
-  scale_y_continuous("Annual cumulated\n precipitation in 2012 (mm)", breaks=seq(50,1000,50)) + 
-  scale_x_reverse("",breaks=seq(23.5,30,0.5))
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2013_season2"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2013_season2"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2013_season2"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2013_season2"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2013_season2"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2013_season2"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2013_season2"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2013_season2"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2013_season2"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Maximum temperature\n in the second half of year 2013 (mm)", breaks=seq(0,50,1), limits = c(30,40)) + 
+  scale_x_reverse("",breaks=seq(23,30,1))
 
-transect_annual_prec_2013 <- ggplot(transect_annual_data, aes( x = latitude)) +
-  geom_line(aes( y = TC_prec_2013 ), linetype="solid", colour="black", size=1) +
+transect_seasonal_tmax_2014_season1 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_tmax_2014_season1 ), linetype="solid", colour="black", size=1) +
   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
         axis.line.y = element_line(size = 0.5, colour = "black"),
         axis.line = element_line(size=1, colour = "black"),
@@ -1901,29 +2166,29 @@ transect_annual_prec_2013 <- ggplot(transect_annual_data, aes( x = latitude)) +
         text=element_text(size = 16),
         axis.text.x=element_text(colour="black", size = 12),
         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2013"]+0.25), label = "158", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2013"]+0.25), label = "172", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2013"]+0.25), label = "112", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2013"]+0.25), label = "113", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2013"]+0.25), label = "95", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2013"]+0.25), label = "179", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2013"]+0.25), label = "201", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2013"]+0.25), label = "96", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2013"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2013"]+0.25), label = "70", fontface = "bold", color = "black", size = 4) +
-  scale_y_continuous("Annual cumulated\n precipitation in 2013 (mm)", breaks=seq(50,1000,50)) + 
-  scale_x_reverse("",breaks=seq(23.5,30,0.5))
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2014_season1"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2014_season1"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2014_season1"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2014_season1"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2014_season1"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2014_season1"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2014_season1"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2014_season1"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2014_season1"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Maximum temperature\n in the first half of year 2014 (mm)", breaks=seq(0,50,1), limits = c(30,40)) + 
+  scale_x_reverse("Latitude",breaks=seq(23,30,1))
 
-transect_annual_prec_2014 <- ggplot(transect_annual_data, aes( x = latitude)) +
-  geom_line(aes( y = TC_prec_2014 ), linetype="solid", colour="black", size=1) +
+transect_seasonal_tmax_2014_season2 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_tmax_2014_season2 ), linetype="solid", colour="black", size=1) +
   theme(axis.line.x = element_line(size = 0.5, colour = "black"),
         axis.line.y = element_line(size = 0.5, colour = "black"),
         axis.line = element_line(size=1, colour = "black"),
@@ -1935,107 +2200,268 @@ transect_annual_prec_2014 <- ggplot(transect_annual_data, aes( x = latitude)) +
         text=element_text(size = 16),
         axis.text.x=element_text(colour="black", size = 12),
         axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==158),"TC_prec_2014"]+0.25), label = "158", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==172),"TC_prec_2014"]+0.25), label = "172", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==112),"TC_prec_2014"]+0.25), label = "112", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==113),"TC_prec_2014"]+0.25), label = "113", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==95),"TC_prec_2014"]+0.25), label = "95", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==179),"TC_prec_2014"]+0.25), label = "179", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==201),"TC_prec_2014"]+0.25), label = "201", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==96),"TC_prec_2014"]+0.25), label = "96", fontface = "bold", color = "black", size = 4) +
-  geom_point(aes(x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2014"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
-  annotate(geom = "text", x = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"latitude"]), y = as.vector(transect_annual_data[which(transect_annual_data$pop==70),"TC_prec_2014"]+0.25), label = "70", fontface = "bold", color = "black", size = 4) +
-  scale_y_continuous("Annual cumulated\n precipitation in 2014 (mm)", breaks=seq(50,1000,50)) + 
-  scale_x_reverse("Latitude",breaks=seq(23.5,30,0.5))
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_tmax_2014_season2"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_tmax_2014_season2"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_tmax_2014_season2"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_tmax_2014_season2"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_tmax_2014_season2"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_tmax_2014_season2"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_tmax_2014_season2"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_tmax_2014_season2"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_tmax_2014_season2"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Maximum temperature\n in the second half of year 2014 (mm)", breaks=seq(0,50,1), limits = c(30,40)) + 
+  scale_x_reverse("Latitude",breaks=seq(23,30,1))
+
+transect_seasonal_prec_2012_season1 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_prec_2012_season1 ), linetype="solid", colour="black", size=1) +
+  theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+        axis.line.y = element_line(size = 0.5, colour = "black"),
+        axis.line = element_line(size=1, colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        plot.margin = margin(10, 10, 10, 10, "pt"),
+        text=element_text(size = 16),
+        axis.text.x=element_text(colour="black", size = 12),
+        axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2012_season1"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2012_season1"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2012_season1"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2012_season1"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2012_season1"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2012_season1"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2012_season1"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2012_season1"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2012_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2012_season1"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Cumulative precipitation\n in the first half of year 2012 (mm)", breaks=seq(50,1000,50), limits = c(0,800)) + 
+  scale_x_reverse("",breaks=seq(23,30,1))
+
+transect_seasonal_prec_2012_season2 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_prec_2012_season2 ), linetype="solid", colour="black", size=1) +
+  theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+        axis.line.y = element_line(size = 0.5, colour = "black"),
+        axis.line = element_line(size=1, colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        plot.margin = margin(10, 10, 10, 10, "pt"),
+        text=element_text(size = 16),
+        axis.text.x=element_text(colour="black", size = 12),
+        axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2012_season2"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2012_season2"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2012_season2"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2012_season2"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2012_season2"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2012_season2"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2012_season2"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2012_season2"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2012_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2012_season2"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Cumulative precipitation\n in the second half of year 2012 (mm)", breaks=seq(50,1000,50), limits = c(0,800)) + 
+  scale_x_reverse("",breaks=seq(23,30,1))
+
+transect_seasonal_prec_2013_season1 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_prec_2013_season1 ), linetype="solid", colour="black", size=1) +
+  theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+        axis.line.y = element_line(size = 0.5, colour = "black"),
+        axis.line = element_line(size=1, colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        plot.margin = margin(10, 10, 10, 10, "pt"),
+        text=element_text(size = 16),
+        axis.text.x=element_text(colour="black", size = 12),
+        axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2013_season1"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2013_season1"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2013_season1"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2013_season1"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2013_season1"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2013_season1"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2013_season1"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2013_season1"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2013_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2013_season1"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Cumulative precipitation\n in the first half of year 2013 (mm)", breaks=seq(50,1000,50), limits = c(0,800)) + 
+  scale_x_reverse("",breaks=seq(23,30,1))
+
+transect_seasonal_prec_2013_season2 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_prec_2013_season2 ), linetype="solid", colour="black", size=1) +
+  theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+        axis.line.y = element_line(size = 0.5, colour = "black"),
+        axis.line = element_line(size=1, colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        plot.margin = margin(10, 10, 10, 10, "pt"),
+        text=element_text(size = 16),
+        axis.text.x=element_text(colour="black", size = 12),
+        axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2013_season2"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2013_season2"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2013_season2"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2013_season2"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2013_season2"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2013_season2"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2013_season2"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2013_season2"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2013_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2013_season2"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Cumulative precipitation\n in the second half of year 2013 (mm)", breaks=seq(50,1000,50), limits = c(0,800)) + 
+  scale_x_reverse("",breaks=seq(23,30,1))
+
+transect_seasonal_prec_2014_season1 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_prec_2014_season1 ), linetype="solid", colour="black", size=1) +
+  theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+        axis.line.y = element_line(size = 0.5, colour = "black"),
+        axis.line = element_line(size=1, colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        plot.margin = margin(10, 10, 10, 10, "pt"),
+        text=element_text(size = 16),
+        axis.text.x=element_text(colour="black", size = 12),
+        axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2014_season1"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2014_season1"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2014_season1"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2014_season1"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2014_season1"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2014_season1"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2014_season1"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2014_season1"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2014_season1"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2014_season1"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Cumulative precipitation\n in the first half of year 2014 (mm)", breaks=seq(50,1000,50), limits = c(0,800)) + 
+  scale_x_reverse("Latitude",breaks=seq(23,30,1))
+
+transect_seasonal_prec_2014_season2 <- ggplot(transect_seasonal_data, aes( x = latitude)) +
+  geom_line(aes( y = TC_prec_2014_season2 ), linetype="solid", colour="black", size=1) +
+  theme(axis.line.x = element_line(size = 0.5, colour = "black"),
+        axis.line.y = element_line(size = 0.5, colour = "black"),
+        axis.line = element_line(size=1, colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        plot.margin = margin(10, 10, 10, 10, "pt"),
+        text=element_text(size = 16),
+        axis.text.x=element_text(colour="black", size = 12),
+        axis.text.y=element_text(colour="black", size = 12, angle = 00, hjust = 0.5)) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==158),"TC_prec_2014_season2"]+0.02), label = "158", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==172),"TC_prec_2014_season2"]+0.02), label = "172", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==112),"TC_prec_2014_season2"]+0.02), label = "112", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==113),"TC_prec_2014_season2"]+0.02), label = "113", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==95),"TC_prec_2014_season2"]+0.02), label = "95", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==179),"TC_prec_2014_season2"]+0.02), label = "179", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==201),"TC_prec_2014_season2"]+0.02), label = "201", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==96),"TC_prec_2014_season2"]+0.02), label = "96", fontface = "bold", color = "black", size = 4) +
+  geom_point(aes(x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2014_season2"])), size = 10.5, shape = 21, stroke = 2, colour = "black", fill = "white") +
+  annotate(geom = "text", x = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"latitude"]), y = as.vector(transect_seasonal_data[which(transect_seasonal_data$pop==70),"TC_prec_2014_season2"]+0.02), label = "70", fontface = "bold", color = "black", size = 4) +
+  scale_y_continuous("Cumulative precipitation\n in the second half of year 2014 (mm)", breaks=seq(50,1000,50), limits = c(0,800)) + 
+  scale_x_reverse("Latitude",breaks=seq(23,30,1))
 
 
-# Figure 5 -------------------- 
 
+# Figure S10 -------------------- 
 
 # Combine plots
 # dev.new(width = 10, height = 10, units = "in", dpi = 600, limitsize = TRUE)
 # par(mfrow=c(1,1))
 
 ggdraw() +
-  draw_plot(transect_annual_tmax_2012, x = 0, y = 0.66, width = 0.5, height = 0.33) +
-  draw_plot(transect_annual_tmax_2013, x = 0, y = 0.33, width = 0.5, height = 0.33) +
-  draw_plot(transect_annual_tmax_2014, x = 0, y = 0, width = 0.5, height = 0.33) +
-  draw_plot(transect_annual_prec_2012, x = 0.5, y = 0.66, width = 0.5, height = 0.33) +
-  draw_plot(transect_annual_prec_2013, x = 0.5, y = 0.33, width = 0.5, height = 0.33) +
-  draw_plot(transect_annual_prec_2014, x = 0.5, y = 0, width = 0.5, height = 0.33)
+  draw_plot(transect_seasonal_tmax_2012_season1, x = 0, y = 0.66, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_tmax_2013_season1, x = 0, y = 0.33, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_tmax_2014_season1, x = 0, y = 0, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_tmax_2012_season2, x = 0.5, y = 0.66, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_tmax_2013_season2, x = 0.5, y = 0.33, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_tmax_2014_season2, x = 0.5, y = 0, width = 0.5, height = 0.33) 
 
 # dev.size(units = "in")
-ggsave(paste0(workdir,"figures/","transect_annual_data.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 12, height = 16, units = c("in"), dpi = 600, limitsize = TRUE)
+ggsave(paste0(workdir,"figures/","transect_seasonal_tmax.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 12, height = 16, units = c("in"), dpi = 600, limitsize = TRUE)
 
 
+# Figure S11 -------------------- 
 
-# ---------------------------------------------------------------------------- #
-# Figure: Fig wasp interaction network
-# ---------------------------------------------------------------------------- #
+# Combine plots
+# dev.new(width = 10, height = 10, units = "in", dpi = 600, limitsize = TRUE)
+# par(mfrow=c(1,1))
 
+ggdraw() +
+  draw_plot(transect_seasonal_prec_2012_season1, x = 0, y = 0.66, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_prec_2013_season1, x = 0, y = 0.33, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_prec_2014_season1, x = 0, y = 0, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_prec_2012_season2, x = 0.5, y = 0.66, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_prec_2013_season2, x = 0.5, y = 0.33, width = 0.5, height = 0.33) +
+  draw_plot(transect_seasonal_prec_2014_season2, x = 0.5, y = 0, width = 0.5, height = 0.33) 
 
+# dev.size(units = "in")
+ggsave(paste0(workdir,"figures/","transect_seasonal_prec.png", sep=""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 12, height = 16, units = c("in"), dpi = 600, limitsize = TRUE)
 
-# Subset abundances for fig wasp interaction analysis
-wasp_abund <- df_fig_analysis[,c("pollinators","LO1_f","SO1_f","SO2_f","heterandrium_1","heterandrium_2","ficicola","physothorax","sycophila")] 
-colnames(wasp_abund) <- c("Pegoscapus sp.","Idarnes flavicolis sp.","Idarnes carme sp. 1","Idarnes carme sp. 2","Heterandrium sp. 1","Heterandrium sp. 2","Ficicola sp.","Physothorax sp.","Sycophila sp.")
-
-# Run network models
-wasp_network_offset <- PLNnetwork(Abundance ~ 1 + offset(log(Offset)), data = wasp_abund_for_PLN)
-
-# Select best model
-wasp_best_network_offset <- getBestModel(wasp_network_offset)
-
-# Create igraph object
-wasp_best_network_offset_graph <- plot(wasp_best_network_offset)
-
-# Investigate igraph object
-str(wasp_best_network_offset_graph)
-vertex_attr(wasp_best_network_offset_graph)
-edge_attr(wasp_best_network_offset_graph)
-
-
-# Figure 10 --------------------
-
-# Make nicer plot with ggraph
-wasp_graph <- ggraph(wasp_best_network_offset_graph, layout = "linear", circular = TRUE) + 
-	geom_edge_arc(aes(edge_width=width, edge_colour=color, alpha = 0.5)) + # Add:, label = round(width,digits = 2), label_size = 22, for labels; ,check_overlap = TRUE to prevent overlap
-	geom_node_point(size = 6) +
-	# coord_fixed() +
-	theme_graph(background = "white") +
-	theme(legend.position = "none", plot.margin = margin(0, 0, 0, 0, "cm")) +
-	scale_edge_colour_manual(values = c("#e72a32","#69c8ff"))
-wasp_graph
-
-# Add labels
-wasp_graph + 	geom_node_text(aes(label=name), size = 5, colour="#007ba7", nudge_x = wasp_graph$data$x * .1, nudge_y = wasp_graph$data$y * .1)
-# Labels are hard to work with, they will be added with Inkscape.
-
-# Save
-wasp_graph + coord_fixed()
-ggsave(paste(workdir,"figures/","wasp_interaction_network_with_numbers.png", sep = ""), plot = last_plot(), device = "png", path = NULL, scale = 1, width = 6, height = 6, units = c("in"), dpi = 600, limitsize = TRUE)
-
-# Partial correlation matrix
-wasp_best_network_offset_corrplot_matrix <- as.matrix(wasp_best_network_offset_corrplot)
-wasp_best_network_offset_corrplot_matrix
-diag(wasp_best_network_offset_corrplot_matrix) <- 0
-colnames(wasp_best_network_offset_corrplot_matrix) <- c("Pegoscapus sp.","Idarnes flavicolis sp.","Idarnes carme sp. 1","Idarnes carme sp. 2","Heterandrium sp. 1","Heterandrium sp. 2","Ficicola sp.","Physothorax sp.","Sycophila sp.")
-rownames(wasp_best_network_offset_corrplot_matrix) <- c("Pegoscapus sp.","Idarnes flavicolis sp.","Idarnes carme sp. 1","Idarnes carme sp. 2","Heterandrium sp. 1","Heterandrium sp. 2","Ficicola sp.","Physothorax sp.","Sycophila sp.")
-corrplot(wasp_best_network_offset_corrplot_matrix, diag = FALSE, type = "upper", tl.col = "black", font = 3,is.corr=FALSE)
-
-# Save
-png(paste(workdir,"figures/","wasp_residual_covariance.png", sep = ""), width = 6, height = 6, units = "in", res = 600)
-corrplot(wasp_best_network_offset_corrplot_matrix, diag = FALSE, type = "upper", tl.col = "black", font = 3, col.lim = c(-0.3,0.3),is.corr=FALSE)
-dev.off()
-
-# Both graphs will be combined with Inkscape.
 
 
 # ---------------------------------------------------------------------------- #

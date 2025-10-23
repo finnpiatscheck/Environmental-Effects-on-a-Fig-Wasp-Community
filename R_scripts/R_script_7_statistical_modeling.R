@@ -4,7 +4,7 @@
 
 
 
-# Article title: Landscape-Level Analysis of a Fig-Pollinator-Antagonist Community: Spatial and Temporal Variation in a Fig Wasp Community and its Response to Biotic and Abiotic Factors
+# Article title: Temperature and Precipitation Impact Fig Wasp Community Composition Moreso than Host-Related and Landscape Biotic Factors
 # By Finn Piatscheck, Justin van Goor, Derek Houston and John Nason.
 
 
@@ -12,7 +12,7 @@
 # The methods used here are multivariate modeling and generalized linear mixed models.
 # A few outliers are removed and empty figs (i.e. D phase syconia collected too early with wasp on the brink of emerging but not emerged yet) were previously removed.
 # The plots realized in this script are not the ones presented in the article.
-# For publication quality figures, refer to the R script 8: figure reproduction.
+# For publication quality figures, refer to R_script_8_figure_reproduction.R.
 
 
 
@@ -624,27 +624,6 @@ summary(hyp3_mod2_TC_b_imputdata_pool_fit)
 # Asynchrony is associated with increase production of pollinators
 # Increased temperature and increased precipitation are associated with higher pollinator production.
 # Interactions among abiotic variables and foudress counts.
-
-
-
-# ---------------------------------------------------------------------------- #
-# Fig wasp species interaction network inference with Poisson-Lognormal models
-# ---------------------------------------------------------------------------- #
-
-
-
-# Prepare data
-wasp_abund_for_PLN <- prepare_data(counts = wasp_abund, covariates = df_fig_data[,c("site","season")], offset = "TSS")
-str(wasp_abund_for_PLN)
-
-# Run network models
-wasp_network_offset <- PLNnetwork(Abundance ~ 1 + offset(log(Offset)), data = wasp_abund_for_PLN)
-
-# Select best model
-wasp_best_network_offset <- getBestModel(wasp_network_offset)
-plot(wasp_best_network_offset)
-plot(wasp_best_network_offset, type = "support", output = "corrplot")
-# Done
 
 
 
